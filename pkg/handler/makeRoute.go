@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"crudSystem/pkg/utils"
 	"net/http"
+
+	"github.com/rustingoff/pkg/utils"
 )
 
 func MakeRoute(method, url string, fn func(http.ResponseWriter, *http.Request, string)) {

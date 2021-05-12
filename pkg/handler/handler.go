@@ -1,15 +1,16 @@
 package handler
 
 import (
-	"crudSystem/internal/entities"
-	"crudSystem/pkg/repository"
-	"crudSystem/pkg/service"
-	"crudSystem/pkg/utils"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/rustingoff/internal/entities"
+	"github.com/rustingoff/pkg/repository"
+	"github.com/rustingoff/pkg/service"
+	"github.com/rustingoff/pkg/utils"
 )
 
 var DB = repository.GetDataBase()

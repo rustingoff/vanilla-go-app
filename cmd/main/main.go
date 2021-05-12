@@ -1,12 +1,13 @@
 package main
 
 import (
-	"crudSystem"
-	"crudSystem/pkg/handler"
+	serv "github.com/rustingoff"
+	"github.com/rustingoff/pkg/handler"
 )
 
 func main() {
 	handler.InitRoutes()
-	srv := new(crudSystem.Server)
-	srv.Run("8080")
+
+	server := new(serv.Server)
+	server.Run("8080")
 }

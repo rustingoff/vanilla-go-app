@@ -1,9 +1,9 @@
 package service
 
 import (
-	"crudSystem/internal/entities"
 	"fmt"
 
+	"github.com/rustingoff/internal/entities"
 	"gorm.io/gorm"
 )
 

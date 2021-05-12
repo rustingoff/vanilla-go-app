@@ -1,4 +1,4 @@
-module crudSystem
+module github.com/rustingoff
 
 go 1.16
 
