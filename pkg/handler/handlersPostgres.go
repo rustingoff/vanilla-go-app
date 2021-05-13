@@ -16,7 +16,7 @@ import (
 var DB = repository.GetDataBase()
 
 // GETTERS
-func getAllProducts(w http.ResponseWriter, r *http.Request, urlPattern string) {
+func getAllProductsPG(w http.ResponseWriter, r *http.Request, urlPattern string) {
 	p := []entities.ProductPGDB{}
 	res := DB.Find(&p)
 	if res.Error != nil {
@@ -30,7 +30,7 @@ func getAllProducts(w http.ResponseWriter, r *http.Request, urlPattern string) {
 	utils.ServerResponse(w, http.StatusOK)
 }
 
-func getProductById(w http.ResponseWriter, r *http.Request, urlPattern string) {
+func getProductByIdPG(w http.ResponseWriter, r *http.Request, urlPattern string) {
 	id := strings.TrimPrefix(r.URL.Path, urlPattern)
 	if id == "" {
 		utils.ServerResponse(w, http.StatusNotFound)
@@ -53,7 +53,7 @@ func getProductById(w http.ResponseWriter, r *http.Request, urlPattern string) {
 }
 
 // SETTERS
-func addProduct(w http.ResponseWriter, r *http.Request, urlPattern string) {
+func addProductPG(w http.ResponseWriter, r *http.Request, urlPattern string) {
 	var p *entities.ProductPGDB
 	err := json.NewDecoder(r.Body).Decode(&p)
 	if err != nil {
@@ -70,7 +70,7 @@ func addProduct(w http.ResponseWriter, r *http.Request, urlPattern string) {
 	utils.ServerResponse(w, http.StatusOK)
 }
 
-func updateProduct(w http.ResponseWriter, r *http.Request, urlPattern string) {
+func updateProductPG(w http.ResponseWriter, r *http.Request, urlPattern string) {
 	id := strings.TrimPrefix(r.URL.Path, urlPattern)
 	if len(id) == 0 {
 		w.Write([]byte("Incorrect path\n"))
@@ -100,7 +100,7 @@ func updateProduct(w http.ResponseWriter, r *http.Request, urlPattern string) {
 	utils.ServerResponse(w, http.StatusOK)
 }
 
-func deleteProduct(w http.ResponseWriter, r *http.Request, urlPattern string) {
+func deleteProductPG(w http.ResponseWriter, r *http.Request, urlPattern string) {
 	id := strings.TrimPrefix(r.URL.Path, urlPattern)
 	if len(id) == 0 {
 		w.Write([]byte("Incorrect path\n"))
