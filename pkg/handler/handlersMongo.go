@@ -20,7 +20,10 @@ var client *mongo.Client
 func getAllProductsMongo(w http.ResponseWriter, r *http.Request, urlPattern string) {
 	w.Header().Add("content-type", "application/json")
 	var products []entities.ProductMGDB
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	client = repository.NewClientMongoDB(ctx)
 	collection := client.Database("crud_system").Collection("products")
 	cursor, err := collection.Find(ctx, bson.M{})
@@ -48,7 +51,9 @@ func getProductByIdMongo(w http.ResponseWriter, r *http.Request, urlPattern stri
 
 	json.NewDecoder(r.Body).Decode(&product)
 
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	client = repository.NewClientMongoDB(ctx)
 	collection := client.Database("crud_system").Collection("products")
 	err := collection.FindOne(ctx, entities.ProductMGDB{ID: id}).Decode(&product)
@@ -62,12 +67,18 @@ func getProductByIdMongo(w http.ResponseWriter, r *http.Request, urlPattern stri
 
 func addProductMongo(w http.ResponseWriter, r *http.Request, urlPattern string) {
 	w.Header().Add("content-type", "application/json")
+
 	var product entities.ProductMGDB
+
 	json.NewDecoder(r.Body).Decode(&product)
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	client = repository.NewClientMongoDB(ctx)
 	collection := client.Database("crud_system").Collection("products")
 	result, _ := collection.InsertOne(ctx, product)
+
 	json.NewEncoder(w).Encode(result)
 }
 
@@ -78,7 +89,9 @@ func updateProductMongo(w http.ResponseWriter, r *http.Request, urlPattern strin
 
 	json.NewDecoder(r.Body).Decode(&product)
 
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	client = repository.NewClientMongoDB(ctx)
 	collection := client.Database("crud_system").Collection("products")
 	result, err := collection.UpdateOne(ctx, entities.ProductMGDB{ID: id}, product)
@@ -97,7 +110,9 @@ func deleteProductMongo(w http.ResponseWriter, r *http.Request, urlPattern strin
 
 	json.NewDecoder(r.Body).Decode(&product)
 
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	client = repository.NewClientMongoDB(ctx)
 	collection := client.Database("crud_system").Collection("products")
 	result, err := collection.DeleteOne(ctx, entities.ProductMGDB{ID: id})
